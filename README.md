@@ -40,7 +40,7 @@ To set up and run the Uptime Kuma Network Agent using Docker Compose, follow the
 
     Replace the environment variables in the `docker-compose.yml` file with your actual Uptime Kuma instance details:
 
-    - `UPTIME_KUMA_INSTANCE_HOSTNAME`: The hostname of your Uptime Kuma instance. This will be used to measure latency between Uptike Kuma and internal devices.
+    - `UPTIME_KUMA_INSTANCE_HOSTNAME`: The hostname of your Uptime Kuma instance. This will be used to measure latency between Uptime Kuma and internal devices.
     - `UPTIME_KUMA_INSTANCE_URL`: The URL of your Uptime Kuma dashboard.
     - `UPTIME_KUMA_INSTANCE_USERNAME`: Your Uptime Kuma dashboard username.
     - `UPTIME_KUMA_INSTANCE_PASSWORD`: Your Uptime Kuma dashboard password.
