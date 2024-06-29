@@ -1,0 +1,10 @@
+version: '3'
+services:
+  uptime-kuma-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - UPTIME_KUMA_INSTANCE_HOSTNAME=https://monitor.zethra.dev
+      - UPTIME_KUMA_INSTANCE_USERNAME=zethra
+      - UPTIME_KUMA_INSTANCE_PASSWORD=1%%9RZV8g4zOcx
