@@ -1,15 +1,16 @@
 import requests
-import subprocess
 import time
 import json
 import threading
 import os
 from uptime_kuma_api import UptimeKumaApi, MonitorType
+import ping3  # Importing ping3 for ICMP ping operations
 
 # Static variables for Uptime Kuma instance
 uptime_kuma_instance = [
     {
         "hostname": os.getenv('UPTIME_KUMA_INSTANCE_HOSTNAME'),
+        "url": os.getenv('UPTIME_KUMA_INSTANCE_URL'),
         "username": os.getenv('UPTIME_KUMA_INSTANCE_USERNAME'),
         "password": os.getenv('UPTIME_KUMA_INSTANCE_PASSWORD')
     }
@@ -27,7 +28,7 @@ def fetch_monitors_from_kuma(api_url, username, password):
                 if monitor['type'] == MonitorType.PUSH:
                     push_token = monitor['pushToken']
                     push_url = f"{api_url}/api/push/{push_token}?status=up&msg=OK&ping=<ping>"
-                    hostname = monitor['description'] if 'description' in monitor and monitor['description'] else "unknown"
+                    hostname = monitor.get('description', "unknown")
                     fetched_hosts.append({
                         "name": monitor['name'],
                         "hostname": hostname,
@@ -46,25 +47,11 @@ def fetch_monitors_periodically(api_url, username, password):
         print("Updated hosts from Uptime Kuma instance.")
         time.sleep(60)  # Fetch hosts every 60 seconds
 
-# Function to ping a host and return the ping time in milliseconds
-def ping(host):
-    """ Returns the ping time to the host in milliseconds as an integer, or None if the host is unreachable """
-    try:
-        output = subprocess.check_output(
-            ["ping", "-c", "1", host],
-            stderr=subprocess.STDOUT,
-            universal_newlines=True
-        )
-        time_str = output.split("time=")[-1].split(" ms")[0]
-        return int(round(float(time_str)))
-    except subprocess.CalledProcessError:
-        return None
-
 # Function to push the ping result to Kuma
-def push_to_kuma(url, ping):
+def push_to_kuma(url, ping_value):
     """ Sends a push request to the Kuma URL with the ping time """
     try:
-        push_url = url.replace("<ping>", str(ping))
+        push_url = url.replace("<ping>", str(ping_value))
         response = requests.get(push_url)
         return response.status_code == 200
     except requests.RequestException as e:
@@ -75,10 +62,10 @@ def push_to_kuma(url, ping):
 def monitor_all_hosts():
     while True:
         for host in hosts:
-            internal_ping = ping(host["hostname"])
+            internal_ping = ping3.ping(host["hostname"], unit='ms')
             if internal_ping is not None:
                 for kuma_host in uptime_kuma_instance:
-                    external_ping = ping(kuma_host["hostname"].replace("https://", "").replace("http://", ""))
+                    external_ping = round(ping3.ping(kuma_host["hostname"].replace("https://", "").replace("http://", ""), unit='ms'))
                     if external_ping is not None:
                         success = push_to_kuma(host["kuma_push_url"], external_ping)
                         if success:
@@ -98,7 +85,7 @@ def monitor_all_hosts():
 if __name__ == "__main__":
     # Start a thread to periodically fetch hosts
     for kuma_host in uptime_kuma_instance:
-        api_url = kuma_host['hostname']
+        api_url = kuma_host['url']
         username = kuma_host['username']
         password = kuma_host['password']
         hosts = fetch_monitors_from_kuma(api_url, username, password)

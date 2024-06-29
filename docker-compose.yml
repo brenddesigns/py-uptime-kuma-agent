@@ -3,6 +3,9 @@ services:
   uptime-kuma-agent:
     image: zethraa/py-uptime-kuma-agent:latest
     environment:
-      - UPTIME_KUMA_INSTANCE_HOSTNAME=https://monitor.example.com
-      - UPTIME_KUMA_INSTANCE_USERNAME=example
-      - UPTIME_KUMA_INSTANCE_PASSWORD=password
+      - UPTIME_KUMA_INSTANCE_HOSTNAME=uptime.example.com # Use this to check latency between Uptime Kuma and devices
+      - UPTIME_KUMA_INSTANCE_URL=https://monitor.example.com # Uptime Kuma Dashboard URL
+      - UPTIME_KUMA_INSTANCE_USERNAME=username # Uptime Kuma Dashboard Username
+      - UPTIME_KUMA_INSTANCE_PASSWORD=password # Uptime Kuma Dashboard Password
+    restart: always  # Ensure the container restarts automatically
+    init: true  # Start the container on boot
