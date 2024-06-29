@@ -4,5 +4,5 @@ services:
     image: zethraa/py-uptime-kuma-agent:latest
     environment:
       - UPTIME_KUMA_INSTANCE_HOSTNAME=https://monitor.example.com
-      - UPTIME_KUMA_INSTANCE_USERNAME=username
+      - UPTIME_KUMA_INSTANCE_USERNAME=example
       - UPTIME_KUMA_INSTANCE_PASSWORD=password
