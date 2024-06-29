@@ -59,7 +59,7 @@ Once the agent is running, it will periodically fetch the list of hosts from you
 
 1. **Add New Monitor (Monitor Type: Push)**
 
-Note: This agent only works with the "Push" Monitor Type, by utilising Uptime Kuma API push calls)
+Note: This agent only works with the "Push" Monitor Type, by utilising Uptime Kuma API push calls. You may also specific heartbeat interval (frequency a device should be checked for a response/heartbeat)
 
 ![Uptime Kuma Dashboard](/screenshots/Kuma1.png?raw=true)
 
