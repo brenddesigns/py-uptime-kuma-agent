@@ -57,8 +57,15 @@ To set up and run the Uptime Kuma Network Agent using Docker Compose, follow the
 
 Once the agent is running, it will periodically fetch the list of hosts from your Uptime Kuma instance, ping them, and push the results back to Uptime Kuma. The agent will also automatically restart if it crashes and will start on boot.
 
-1. Add New Monitor (Monitor Type: Push)
+1. **Add New Monitor (Monitor Type: Push)**
+Note: This agent only works with the "Push" Monitor Type, by utilising Uptime Kuma API push calls)
+
 ![Uptime Kuma Dashboard](/screenshots/Kuma1.png?raw=true)
+
+2. **Put Internal IP in Description**
+Note: By default, the "Push" Monitor Type does not include a hostname/IP address. This agent will refer to description in order to determine which device is being monitored.
+
+![Uptime Kuma Dashboard](/screenshots/Kuma2.png?raw=true)
 
 ## Contributing
 
