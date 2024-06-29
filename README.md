@@ -67,13 +67,13 @@ Note: This agent only works with the "Push" Monitor Type, by utilising Uptime Ku
 
 Note: By default, the "Push" Monitor Type does not include a hostname/IP address. This agent will refer to description in order to determine which device is being monitored.
 
-3. Check Monitor
-
-Your internal device should now be monitored. 
-
-
-
 ![Uptime Kuma Dashboard](/screenshots/Kuma2.png?raw=true)
+
+3. **Confirm Host Responds**
+
+Your internal device should now be monitored, showing "Up" and latency (ms) between Uptime Kuma and device should be measured.
+
+![Uptime Kuma Dashboard](/screenshots/Kuma3.png?raw=true)
 
 ## Contributing
 
